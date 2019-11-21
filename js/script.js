@@ -39,10 +39,12 @@ function init(){
     winner = false; // we don't have a winner - starting from zero
     turn = 1 //eventually this will be set to KEY[1]
     gameboard = [null, null, null, null, null, null, null, null, null];
+    render();
 }
 
 function handleClick(evt){
     let selectedIndex = parseInt(evt.target.dataset.index);
+    if(gameboard[selectedIndex] !== null) return;
     gameboard[selectedIndex] = turn;
     turn *= -1;
     render();
@@ -52,4 +54,7 @@ function render(){
     gameboard.forEach(function(elem, index){
         squares[index].textContent = KEY[elem]; 
     })
+    message.innerHTML = `${KEY[turn]}'s Turn`;
 }
+
+
