@@ -45,7 +45,11 @@ function handleClick(evt){
     let selectedIndex = parseInt(evt.target.dataset.index);
     gameboard[selectedIndex] = turn;
     turn *= -1;
+    render();
 }
 
-
-
+function render(){
+    gameboard.forEach(function(elem, index){
+        squares[index].textContent = KEY[elem]; 
+    })
+}
