@@ -44,9 +44,10 @@ function init(){
 
 function handleClick(evt){
     let selectedIndex = parseInt(evt.target.dataset.index);
-    if(gameboard[selectedIndex] !== null) return;
+    if(winner || gameboard[selectedIndex] !== null) return;
     gameboard[selectedIndex] = turn;
     turn *= -1;
+    winner = checkWinner();
     render();
 }
 
@@ -54,7 +55,21 @@ function render(){
     gameboard.forEach(function(elem, index){
         squares[index].textContent = KEY[elem]; 
     })
-    message.innerHTML = `${KEY[turn]}'s Turn`;
+    if(winner === false) {
+        message.innerHTML = `${KEY[turn]}'s Turn`;
+    } else if(winner === 'T'){
+        message.innerHTML = `Tie Game`;
+    } else {
+        message.innerHTML = `${KEY[winner]} Wins!`;
+    }
 }
 
-
+function checkWinner(){
+    for(let i = 0; i < COMBOS.length; i++) {
+       if(Math.abs(gameboard[COMBOS[i][0]] + 
+                    gameboard[COMBOS[i][1]] + 
+                    gameboard[COMBOS[i][2]]) === 3) return gameboard[COMBOS[i][0]];
+    }
+    if(gameboard.includes(null)) return false;
+    return 'T'
+}
